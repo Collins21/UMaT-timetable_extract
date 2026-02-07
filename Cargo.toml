@@ -4,6 +4,12 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-calamine = "0.32.0"
+calamine = "0.33.0"
 genpdf = "0.2.0"
-regex = "1.12.2"
+clap = { version = "4.5.57", features = ["derive"] }
+# indicatif= "0.18.3"
+dirs2 = "3.0.1"
+
+[[bin]]
+name = "extract_timetable"
+path = "src/main.rs"

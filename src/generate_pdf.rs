@@ -1,6 +1,8 @@
+use dirs2;
+
 use crate::model::Period;
 
-pub fn generate_pdf(classes: &Vec<Period>) {
+pub fn generate_pdf(classes: &Vec<Period>, class: &str) {
     let font_family = genpdf::fonts::from_files("./assets", "OpenSans", None)
         .expect("Failed to load font family");
     let mut doc = genpdf::Document::new(font_family);
@@ -8,6 +10,8 @@ pub fn generate_pdf(classes: &Vec<Period>) {
     let mut decorator = genpdf::SimplePageDecorator::new();
     decorator.set_margins(10);
     doc.set_page_decorator(decorator);
+    doc.push(genpdf::elements::Text::new(format!("{} TIMETABLE", class)));
+    doc.set_line_spacing(1.3);
     let mut table = genpdf::elements::TableLayout::new(vec![2, 3, 2, 2, 2]);
     table.set_cell_decorator(genpdf::elements::FrameCellDecorator::new(true, true, true));
     table
@@ -31,6 +35,18 @@ pub fn generate_pdf(classes: &Vec<Period>) {
             .expect("Failed to add class row");
     }
     doc.push(table);
-    doc.render_to_file("timetable.pdf")
-        .expect("Failed to render PDF");
+    let docs_dir = dirs2::document_dir().unwrap();
+
+    doc.render_to_file(format!(
+        "{}/{} timetable.pdf",
+        docs_dir.as_path().display(),
+        class
+    ))
+    .expect("Failed to render PDF");
+    println!(
+        "PDF generated successfully at {}/{} timetable.pdf",
+        docs_dir.as_path().display(),
+        class
+    );
+    //   bar.finish();
 }
