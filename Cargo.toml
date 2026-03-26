@@ -9,6 +9,7 @@ genpdf = "0.2.0"
 clap = { version = "4.5.57", features = ["derive"] }
 # indicatif= "0.18.3"
 dirs2 = "3.0.1"
+rust-embed = "8.11.0"
 
 [[bin]]
 name = "extract_timetable"
